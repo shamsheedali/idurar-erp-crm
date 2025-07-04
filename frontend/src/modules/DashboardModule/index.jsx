@@ -48,15 +48,29 @@ export default function DashboardModule() {
     request.summary({ entity: 'client' })
   );
 
-  useEffect(() => {
-    const currency = money_format_settings.default_currency_code || null;
+  // useEffect(() => {
+  //   const currency = money_format_settings.default_currency_code || null;
 
-    if (currency) {
+  //   if (currency) {
+  //     fetchInvoicesStats(getStatsData({ entity: 'invoice', currency }));
+  //     fetchQuotesStats(getStatsData({ entity: 'quote', currency }));
+  //     fetchPayemntsStats(getStatsData({ entity: 'payment', currency }));
+  //   }
+  // }, [money_format_settings.default_currency_code]);
+
+  useEffect(() => {
+    if (
+      money_format_settings &&
+      typeof money_format_settings === 'object' &&
+      money_format_settings.default_currency_code
+    ) {
+      const currency = money_format_settings.default_currency_code;
+
       fetchInvoicesStats(getStatsData({ entity: 'invoice', currency }));
       fetchQuotesStats(getStatsData({ entity: 'quote', currency }));
       fetchPayemntsStats(getStatsData({ entity: 'payment', currency }));
     }
-  }, [money_format_settings.default_currency_code]);
+  }, [money_format_settings]);
 
   const dataTableColumns = [
     {
