@@ -26,7 +26,7 @@ const querySchema = new mongoose.Schema({
 
   status: {
     type: String,
-    enum: ['open', 'inprogress', 'closed'],
+    enum: ['Open', 'Inprogress', 'Closed'],
     default: 'open',
   },
 
