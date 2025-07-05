@@ -105,6 +105,11 @@ export default function DataTable({ config, extra = [] }) {
     navigate(`/invoice/pay/${record._id}`);
   };
 
+  const handleAddNote = (record) => {
+    dispatch(erp.currentItem({ data: record }));
+    navigate(`/query/note/${record._id}`);
+  };
+
   dataTableColumns = [
     ...dataTableColumns,
     {
@@ -131,6 +136,9 @@ export default function DataTable({ config, extra = [] }) {
                   break;
                 case 'recordPayment':
                   handleRecordPayment(record);
+                  break;
+                case 'addNote':
+                  handleAddNote(record);
                   break;
                 default:
                   break;

@@ -235,8 +235,23 @@ export default function ReadQuery({ config, selectedItem }) {
             <Descriptions.Item label={translate('Description')}>
               {currentErp.description || '-'}
             </Descriptions.Item>
+
             <Descriptions.Item label={translate('Resolution')}>
               {currentErp.resolution || '-'}
+            </Descriptions.Item>
+
+            <Descriptions.Item label={translate('Notes')}>
+              {currentErp.notes?.length > 0 ? (
+                <ul style={{ paddingLeft: '16px', margin: 0 }}>
+                  {currentErp.notes.map((note) => (
+                    <li key={note.noteId}>
+                      <strong>{dayjs(note.createdAt).format(dateFormat)}:</strong> {note.text}
+                    </li>
+                  ))}
+                </ul>
+              ) : (
+                <span>{translate('No notes')}</span>
+              )}
             </Descriptions.Item>
           </Descriptions>
         </Col>

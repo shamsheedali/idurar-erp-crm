@@ -30,6 +30,7 @@ const Query = lazy(() => import('@/pages/Query'));
 const QueryCreate = lazy(() => import('@/pages/Query/QueryCreate'));
 const QueryRead = lazy(() => import('@/pages/Query/QueryRead'));
 const QueryUpdate = lazy(() => import('@/pages/Query/QueryUpdate'));
+const QueryAddNote = lazy(() => import('@/pages/Query/QueryAddNote'));
 
 const Profile = lazy(() => import('@/pages/Profile'));
 
@@ -139,6 +140,10 @@ let routes = {
     {
       path: '/query/update/:id',
       element: <QueryUpdate />,
+    },
+    {
+      path: '/query/note/:id',
+      element: <QueryAddNote />,
     },
     {
       path: '/profile',

@@ -1,5 +1,5 @@
 import useLanguage from '@/locale/useLanguage';
-import UpdateQueryModule from '@/modules/QueryModule/updateQueryModule';
+import UpdateQueryModule from '@/modules/QueryModule/UpdateQueryModule';
 
 export default function QueryUpdate() {
   const translate = useLanguage();

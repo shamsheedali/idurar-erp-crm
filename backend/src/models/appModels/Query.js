@@ -42,10 +42,10 @@ const querySchema = new mongoose.Schema({
 
   notes: [
     {
-      _id: false, // prevent Mongo from auto-generating _id for subdocs
+      _id: false,
       noteId: {
         type: mongoose.Schema.Types.ObjectId,
-        default: new mongoose.Types.ObjectId(),
+        default: () => new mongoose.Types.ObjectId(),
       },
       text: { type: String, required: true },
       createdAt: { type: Date, default: Date.now },
