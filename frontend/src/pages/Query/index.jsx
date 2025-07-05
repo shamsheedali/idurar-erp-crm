@@ -36,7 +36,7 @@ export default function Query() {
     },
     {
       title: translate('Date'),
-      dataIndex: 'expiredDate',
+      dataIndex: 'created',
       render: (date) => {
         return dayjs(date).format(dateFormat);
       },

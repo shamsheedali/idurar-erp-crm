@@ -12,6 +12,11 @@ const querySchema = new mongoose.Schema({
     required: true,
   },
 
+  number: {
+    type: Number,
+    required: true,
+  },
+
   client: {
     type: mongoose.Schema.ObjectId,
     ref: 'Client',

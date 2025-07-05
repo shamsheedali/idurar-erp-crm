@@ -1,6 +1,6 @@
 import NotFound from '@/components/NotFound';
 import { ErpLayout } from '@/layout';
-import ReadItem from '@/modules/ErpPanelModule/ReadItem';
+import ReadQuery from '@/modules/QueryModule/ReadQueryModule/ReadQuery';
 
 import PageLoader from '@/components/PageLoader';
 import { erp } from '@/redux/erp/actions';
@@ -30,7 +30,7 @@ export default function ReadQueryModule({ config }) {
     return (
       <ErpLayout>
         {isSuccess ? (
-          <ReadItem config={config} selectedItem={currentResult} />
+          <ReadQuery config={config} selectedItem={currentResult} />
         ) : (
           <NotFound entity={config.entity} />
         )}
