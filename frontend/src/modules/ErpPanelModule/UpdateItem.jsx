@@ -115,12 +115,20 @@ export default function UpdateItem({ config, UpdateForm }) {
     if (current) {
       setCurrentErp(current);
       let formData = { ...current };
-      if (formData.date) {
+
+      // ✅ Safely convert date-like fields to dayjs
+      if (formData.date && typeof formData.date === 'string') {
         formData.date = dayjs(formData.date);
       }
-      if (formData.expiredDate) {
+
+      if (formData.expiredDate && typeof formData.expiredDate === 'string') {
         formData.expiredDate = dayjs(formData.expiredDate);
       }
+
+      if (formData.created && typeof formData.created === 'string') {
+        formData.created = dayjs(formData.created);
+      }
+
       if (!formData.taxRate) {
         formData.taxRate = 0;
       }

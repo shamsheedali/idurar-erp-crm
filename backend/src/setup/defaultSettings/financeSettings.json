@@ -13,6 +13,12 @@
   },
   {
     "settingCategory": "finance_settings",
+    "settingKey": "last_query_number",
+    "settingValue": 0,
+    "valueType": "number"
+  },
+  {
+    "settingCategory": "finance_settings",
     "settingKey": "last_offer_number",
     "settingValue": 0,
     "valueType": "number"
@@ -33,6 +39,12 @@
     "settingCategory": "finance_settings",
     "settingKey": "quote_prefix",
     "settingValue": "qot-",
+    "valueType": "string"
+  },
+  {
+    "settingCategory": "finance_settings",
+    "settingKey": "query_prefix",
+    "settingValue": "qry-",
     "valueType": "string"
   },
   {

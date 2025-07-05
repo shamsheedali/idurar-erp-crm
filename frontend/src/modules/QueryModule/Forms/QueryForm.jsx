@@ -6,10 +6,13 @@ import { PlusOutlined } from '@ant-design/icons';
 import AutoCompleteAsync from '@/components/AutoCompleteAsync';
 import useLanguage from '@/locale/useLanguage';
 import { useDate } from '@/settings';
+import { useSelector } from 'react-redux';
+import { selectFinanceSettings } from '@/redux/settings/selectors';
 
 export default function QueryForm({ current = null }) {
   const translate = useLanguage();
   const { dateFormat } = useDate();
+  const { last_query_number } = useSelector(selectFinanceSettings) || {};
 
   const [currentDate, setCurrentDate] = useState(dayjs());
   const [currentNumber, setCurrentNumber] = useState(1);
@@ -18,18 +21,18 @@ export default function QueryForm({ current = null }) {
     if (current) {
       setCurrentNumber(current.number || 1);
       setCurrentDate(dayjs(current.created) || dayjs());
+    } else {
+      if (last_query_number !== undefined) {
+        setCurrentNumber(last_query_number + 1);
+      }
     }
-  }, [current]);
+  }, [current, last_query_number]);
 
   return (
     <>
       <Row gutter={[12, 0]}>
         <Col span={8}>
-          <Form.Item
-            name="client"
-            label={translate('Client')}
-            rules={[{ required: true }]}
-          >
+          <Form.Item name="client" label={translate('Client')} rules={[{ required: true }]}>
             <AutoCompleteAsync
               entity="client"
               displayLabels={['name']}
@@ -69,16 +72,18 @@ export default function QueryForm({ current = null }) {
           </Form.Item>
         </Col>
 
-        <Col span={6}>
-          <Form.Item
-            name="created"
-            label={translate('Created Date')}
-            initialValue={currentDate}
-            rules={[{ required: true, type: 'object' }]}
-          >
-            <DatePicker style={{ width: '100%' }} format={dateFormat} />
-          </Form.Item>
-        </Col>
+        {!current && (
+          <Col span={6}>
+            <Form.Item
+              name="created"
+              label={translate('Created Date')}
+              initialValue={currentDate}
+              rules={[{ required: true, type: 'object' }]}
+            >
+              <DatePicker style={{ width: '100%' }} format={dateFormat} />
+            </Form.Item>
+          </Col>
+        )}
       </Row>
 
       <Row gutter={[12, 0]}>
@@ -92,10 +97,7 @@ export default function QueryForm({ current = null }) {
           </Form.Item>
         </Col>
         <Col span={24}>
-          <Form.Item
-            name="resolution"
-            label={translate('Resolution')}
-          >
+          <Form.Item name="resolution" label={translate('Resolution')}>
             <Input.TextArea rows={4} />
           </Form.Item>
         </Col>
