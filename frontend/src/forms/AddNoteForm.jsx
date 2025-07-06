@@ -19,12 +19,11 @@ export default function AddNoteForm() {
         {(fields, { add, remove }) => (
           <>
             {fields.map((field) => (
-              <Row gutter={[8, 8]} key={field.key} align="middle">
+              <Row gutter={[8, 8]} align="middle" key={field.key}>
                 <Col span={22}>
                   <Form.Item
-                    {...field}
                     name={[field.name, 'text']}
-                    fieldKey={[field.fieldKey, 'text']}
+                    fieldKey={field.fieldKey}
                     rules={[{ required: true, message: translate('Note is required') }]}
                   >
                     <TextArea rows={2} placeholder={translate('Enter a note')} />

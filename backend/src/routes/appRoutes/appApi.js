@@ -4,7 +4,9 @@ const router = express.Router();
 
 const appControllers = require('@/controllers/appControllers');
 const { routesList } = require('@/models/utils');
+//--------------QUERY-ADD-AND-DELETE----------------
 const queryAddNote = require('@/controllers/appControllers/queryController/addNote');
+const queryDeleteNote = require('@/controllers/appControllers/queryController/deleteNote');
 
 const routerApp = (entity, controller) => {
   router.route(`/${entity}/create`).post(catchErrors(controller['create']));
@@ -32,9 +34,8 @@ routesList.forEach(({ entity, controllerName }) => {
 });
 
 //FOR-CREATING-NOTE
-router.post(
-  '/query/:id/notes/create',
-  catchErrors(queryAddNote)
-);
+router.post('/query/:id/notes/create', catchErrors(queryAddNote));
+//FOR-DELETING-NOTE
+router.delete('/query/:id/notes/delete/:noteId', catchErrors(queryDeleteNote));
 
 module.exports = router;
