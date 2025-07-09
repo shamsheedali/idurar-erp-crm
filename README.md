@@ -1,120 +1,124 @@
-<div align="center">
-    <a href="https://www.idurarapp.com/">
-  <img src="https://avatars.githubusercontent.com/u/50052356?s=200&v=4" width="128px" />
-    </a>
-    <h1>Open Source ERP / CRM Accounting Invoice Quote</h1>
-    <p align="center">
-        <p>IDURAR ERP CRM | Simple To Use</p>
-    </p>
+# 🧾 Full Stack ERP + APIs + Next.js CRUD (IDURAR Extension)
+
+A monorepo containing:
+
+- 🧩 **IDURAR ERP/CRM** – Express + MongoDB + React (Vite)
+- ⚙️ **Nest.js API** – Modular backend service
+- 🧱 **Next.js CRUD App** – Admin UI or frontend portal
+- 🐳 Dockerized setup with optional multi-service orchestration
+
+---
+
+## 📦 Project Overview
+
+| Module             | Tech Stack                  | Description                                  |
+|--------------------|-----------------------------|----------------------------------------------|
+| `frontend/`        | React (Vite, AntD, Redux)   | ERP/CRM UI built on the original IDURAR app |
+| `backend/`         | Express + MongoDB           | Core backend for IDURAR                     |
+| `services/nest-integration/` | Nest.js + MongoDB         | Modular API for additional services         |
+| `nextjs_crud_app/` | Next.js + TypeScript + MongoDB        | Next.js Crud App - Project Management                      |
+
+---
+
+## 🔧 Prerequisites
+
+- [Node.js](w) >= **20.x** (required by backend/frontend)
+- [Docker](w) & [Docker Compose](w)
+- [MongoDB Atlas](w) or local MongoDB instance
+---
+
+## 🌍 Environment Variables
+
+Create `.env` files in each relevant service:
+
+### `/frontend/.env`
+
+```env
+VITE_BACKEND_SERVER=http://localhost:8888
+VITE_FILE_BASE_URL=http://localhost:8888/
+PROD = false
+```
+
+### `/backend/.env`
+
+```env
+PORT=8888
+DATABASE = your_mongodb_rui
+#RESEND_API = "your resend_api"
+#OPENAI_API_KEY = "your open_ai api key"
+JWT_SECRET= "your_private_jwt_secret_key"
+NODE_ENV = "production"
+OPENSSL_CONF='/dev/null'
+PUBLIC_SERVER_FILE="http://localhost:8888/"
+```
+
+### `/services/nest-integration/.env`
+
+```env
+PORT=4000
+MONGO_URI=your_mongo_uri
+WEBHOOK_SECRET=abc123xyz
+```
+
+
+### `/nextjs_crud_app/.env.local`
+
+```env
+NEXT_PUBLIC_API_BASE_URL=http://localhost:3000/api
+PORT=3000
+MONGODB_URI=your_mongo_uri
+```
+---
+
+## 🐳 Service Setup
+
+## Each service has its own Dockerfile.
+
+## IDURAR ERP (Backend + Frontend)
+
+```
+docker-compose up --build
+```
+## Nest.js - API
+```
+cd services/nest-integration
+npm run build
+docker-compose up --build
+```
     
+## Next.js CRUD App
+```
+cd nextjs_crud_app/
+npm run build
+docker-compose up --build
+```
+---
+
+## Route Examples
+
+## IDURAR ERP (Backend + Frontend)
 
 ```
- Give a Star ⭐️ & Fork to this project ... Happy coding! 🤩`
+GET
+http://localhost:8888/api/query/create
 ```
 
-IDURAR is Open Source ERP / CRM (Invoice / Quote / Accounting ) Based on Advanced Mern Stack (Node.js / Express.js / MongoDb / React.js ) with Ant Design (AntD) and Redux
+## Nest.js - API
+```
+http://localhost:4000/integration/reports/summary
+```
+    
+## Next.js CRUD App
+```
+http://localhost:3000/api/projects
+```
+---
 
-</div>
+## ✉️ Contact
 
-**🚀 Self-hosted Entreprise Version** : [https://cloud.idurarapp.com](https://cloud.idurarapp.com)
+Got questions or just want to connect? Feel free to reach out!
 
+* **📧 Email:** shamsheedali0786@gmail.com
+* **📌 GitHub:** [shamsheedali](https://github.com/shamsheedali)
 
-## ⚠️ SECURITY WARNING for Developers & Web Agencies & Blockchain Developer
-
-We’ve been made aware of scammer contacting developers or web agencies, asking them to develop and run malicious or altered versions of IDURAR software.
-
-🚫 NEVER trust emails, messages, or DMs claiming to be from IDURAR unless they come from our official domain: **@idurarapp.com**  
-🚫 DO NOT run unknown versions of the app sent via email or third-party GitHub repositories.
-
-✅ Official GitHub Repo: [https://github.com/idurar/idurar-erp-crm](https://github.com/idurar/idurar-erp-crm)  
-✅ Official Website: [https://idurarapp.com](https://idurarapp.com)
-
-🚨 WARNING: We have been informed that scammers are misusing this open-source project and falsely claiming to represent IDURAR.AI.
-
-⚠️ Only trust official information, updates, and licenses from our official website: [https://idurarapp.com](https://idurarapp.com). and official github repo: https://github.com/idurar/idurar-erp-crm
-We do **not** auhorize any third party to sell, license, or represent our software or brand.
-
-🚫 Never run versions of IDURAR downloaded from unofficial GitHub repositories.  
-These may be **fake**, **malicious**, or used to scam users.
-
-✅ Stay safe. Verify the source and always contact us through our website if in doubt.
-
-## Features :
-
-Invoice Management
-
-Payment Management
-
-Quote Management
-
-Customer Management
-
-Ant Design Framework(AntD) 🐜
-
-Based on Mern Stack (Node.js / Express.js / MongoDb / React.js ) 👨‍💻
-
-### May i can use IDURAR for Commercial use :
-
-- Yes You can use IDURAR for free for personal or Commercial use.
-
-## Our Sponsors
-
-  <a href="https://m.do.co/c/4ead8370b905?ref=idurarapp.com">
-    <img src="https://opensource.nyc3.cdn.digitaloceanspaces.com/attribution/assets/PoweredByDO/DO_Powered_by_Badge_blue.svg" width="201px">
-  </a>
-
-#
-
-<img width="1403" alt="Open Source ERP CRM" src="https://github.com/idurar/idurar-erp-crm/assets/136928179/a6712286-7ca6-4822-8902-fb7523533ee8">
-
-## Free Open Source ERP / CRM App
-
-IDURAR is Open "Fair-Code" Source ERP / CRM (Invoice / Inventory / Accounting / HR) Based on Mern Stack (Node.js / Express.js / MongoDb / React.js ) with Ant Design (AntD) and Redux
-
-
-## Getting started
-
-1.[Clone the repository](INSTALLATION-INSTRUCTIONS.md#step-1-clone-the-repository)
-
-2.[Create Your MongoDB Account and Database Cluster](INSTALLATION-INSTRUCTIONS.md#Step-2-Create-Your-MongoDB-Account-and-Database-Cluster)
-
-3.[Edit the Environment File](INSTALLATION-INSTRUCTIONS.md#Step-3-Edit-the-Environment-File)
-
-4.[Update MongoDB URI](INSTALLATION-INSTRUCTIONS.md#Step-4-Update-MongoDB-URI)
-
-5.[Install Backend Dependencies](INSTALLATION-INSTRUCTIONS.md#Step-5-Install-Backend-Dependencies)
-
-6.[Run Setup Script](INSTALLATION-INSTRUCTIONS.md#Step-6-Run-Setup-Script)
-
-7.[Run the Backend Server](INSTALLATION-INSTRUCTIONS.md#Step-7-Run-the-Backend-Server)
-
-8.[Install Frontend Dependencies](INSTALLATION-INSTRUCTIONS.md#Step-8-Install-Frontend-Dependencies)
-
-9.[Run the Frontend Server](INSTALLATION-INSTRUCTIONS.md#Step-9-Run-the-Frontend-Server)
-
-## Contributing
-
-1.[How to contribute](https://github.com/idurar/idurar-erp-crm/blob/master/CONTRIBUTING.md#how-to-contribute)
-
-2.[Reporting issues](https://github.com/idurar/idurar-erp-crm/blob/master/CONTRIBUTING.md#reporting-issues)
-
-3.[Working on issues ](https://github.com/idurar/idurar-erp-crm/blob/master/CONTRIBUTING.md#working-on-issues)
-
-4.[Submitting pull requests](https://github.com/idurar/idurar-erp-crm/blob/master/CONTRIBUTING.md#submitting-pull-requests)
-
-5.[Commit Guidelines](https://github.com/idurar/idurar-erp-crm/blob/master/CONTRIBUTING.md#commit-guidelines)
-
-6.[Coding Guidelines](https://github.com/idurar/idurar-erp-crm/blob/master/CONTRIBUTING.md#coding-guidelines)
-
-7.[Questions](https://github.com/idurar/idurar-erp-crm/blob/master/CONTRIBUTING.md#questions)
-
-
-## Show your support
-
-Dont forget to give a ⭐️ to this project ... Happy coding!
-
-**🚀 Self-hosted Entreprise Version** : [https://cloud.idurarapp.com](https://cloud.idurarapp.com)
-
-## License
-
-IDURAR is Free Open Source Released under the GNU Affero General Public License v3.0.
+---
