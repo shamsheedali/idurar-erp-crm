@@ -7,6 +7,7 @@ const { routesList } = require('@/models/utils');
 //--------------QUERY-ADD-AND-DELETE----------------
 const queryAddNote = require('@/controllers/appControllers/queryController/addNote');
 const queryDeleteNote = require('@/controllers/appControllers/queryController/deleteNote');
+const summarizeNotes = require('@/controllers/appControllers/invoiceController/summarizeNotes');
 
 const routerApp = (entity, controller) => {
   router.route(`/${entity}/create`).post(catchErrors(controller['create']));
@@ -37,5 +38,7 @@ routesList.forEach(({ entity, controllerName }) => {
 router.post('/query/:id/notes/create', catchErrors(queryAddNote));
 //FOR-DELETING-NOTE
 router.delete('/query/:id/notes/delete/:noteId', catchErrors(queryDeleteNote));
+//FOR-AI-SUMMARY
+router.post('/invoice/notes/summary', catchErrors(summarizeNotes));
 
 module.exports = router;
