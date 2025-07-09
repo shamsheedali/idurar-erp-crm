@@ -1,5 +1,5 @@
 const request = require('supertest');
-const app = require('../src/app'); // your Express app entry point
+const app = require('../src/app');
 const mongoose = require('mongoose');
 const Query = mongoose.model('Query');
 

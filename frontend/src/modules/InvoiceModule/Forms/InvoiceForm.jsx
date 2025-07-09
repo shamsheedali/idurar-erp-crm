@@ -1,38 +1,25 @@
 import { useState, useEffect, useRef } from 'react';
 import dayjs from 'dayjs';
 import { Form, Input, InputNumber, Button, Select, Divider, Row, Col } from 'antd';
-
-import { PlusOutlined } from '@ant-design/icons';
-
+import { PlusOutlined, MinusCircleOutlined } from '@ant-design/icons';
 import { DatePicker } from 'antd';
-
 import AutoCompleteAsync from '@/components/AutoCompleteAsync';
-
-import ItemRow from '@/modules/ErpPanelModule/ItemRow';
-
 import MoneyInputFormItem from '@/components/MoneyInputFormItem';
 import { selectFinanceSettings } from '@/redux/settings/selectors';
 import { useDate } from '@/settings';
 import useLanguage from '@/locale/useLanguage';
-
 import calculate from '@/utils/calculate';
 import { useSelector } from 'react-redux';
 import SelectAsync from '@/components/SelectAsync';
 
 export default function InvoiceForm({ subTotal = 0, current = null }) {
-  const { last_invoice_number } = useSelector(selectFinanceSettings) || {};
-
-  if (last_invoice_number === undefined) {
-    return <></>;
-  }
-
   return <LoadInvoiceForm subTotal={subTotal} current={current} />;
 }
 
 function LoadInvoiceForm({ subTotal = 0, current = null }) {
   const translate = useLanguage();
   const { dateFormat } = useDate();
-  const { last_invoice_number } = useSelector(selectFinanceSettings);
+  const { last_invoice_number } = useSelector(selectFinanceSettings) || {};
   const [total, setTotal] = useState(0);
   const [taxRate, setTaxRate] = useState(0);
   const [taxTotal, setTaxTotal] = useState(0);
@@ -51,6 +38,7 @@ function LoadInvoiceForm({ subTotal = 0, current = null }) {
       setLastNumber(number);
     }
   }, [current]);
+
   useEffect(() => {
     const currentTotal = calculate.add(calculate.multiply(subTotal, taxRate), subTotal);
     setTaxTotal(Number.parseFloat(calculate.multiply(subTotal, taxRate)));
@@ -62,6 +50,65 @@ function LoadInvoiceForm({ subTotal = 0, current = null }) {
   useEffect(() => {
     addField.current.click();
   }, []);
+
+  const ItemRow = ({ field, remove, current }) => {
+    return (
+      <Row gutter={[12, 12]} style={{ position: 'relative' }} align="middle">
+        <Col className="gutter-row" span={4}>
+          <Form.Item
+            {...field}
+            name={[field.name, 'itemName']}
+            fieldKey={[field.fieldKey, 'itemName']}
+            rules={[{ required: true, message: translate('Item is required') }]}
+          >
+            <Input placeholder={translate('Item')} />
+          </Form.Item>
+        </Col>
+        <Col className="gutter-row" span={4}>
+          <Form.Item
+            {...field}
+            name={[field.name, 'description']}
+            fieldKey={[field.fieldKey, 'description']}
+          >
+            <Input placeholder={translate('Description')} />
+          </Form.Item>
+        </Col>
+        <Col className="gutter-row" span={4}>
+          <Form.Item {...field} name={[field.name, 'note']} fieldKey={[field.fieldKey, 'note']}>
+            <Input placeholder={translate('Note')} />
+          </Form.Item>
+        </Col>
+        <Col className="gutter-row" span={3}>
+          <Form.Item
+            {...field}
+            name={[field.name, 'quantity']}
+            fieldKey={[field.fieldKey, 'quantity']}
+            rules={[{ required: true, message: translate('Quantity is required') }]}
+          >
+            <InputNumber placeholder={translate('Quantity')} min={1} style={{ width: '100%' }} />
+          </Form.Item>
+        </Col>
+        <Col className="gutter-row" span={4}>
+          <Form.Item
+            {...field}
+            name={[field.name, 'price']}
+            fieldKey={[field.fieldKey, 'price']}
+            rules={[{ required: true, message: translate('Price is required') }]}
+          >
+            <InputNumber placeholder={translate('Price')} min={0} style={{ width: '100%' }} />
+          </Form.Item>
+        </Col>
+        <Col className="gutter-row" span={4}>
+          <Form.Item {...field} name={[field.name, 'total']} fieldKey={[field.fieldKey, 'total']}>
+            <InputNumber placeholder={translate('Total')} disabled style={{ width: '100%' }} />
+          </Form.Item>
+        </Col>
+        <Col className="gutter-row" span={1}>
+          <MinusCircleOutlined onClick={() => remove(field.name)} />
+        </Col>
+      </Row>
+    );
+  };
 
   return (
     <>
@@ -174,32 +221,46 @@ function LoadInvoiceForm({ subTotal = 0, current = null }) {
       </Row>
       <Divider dashed />
       <Row gutter={[12, 12]} style={{ position: 'relative' }}>
-        <Col className="gutter-row" span={5}>
+        <Col className="gutter-row" span={4}>
           <p>{translate('Item')}</p>
         </Col>
-        <Col className="gutter-row" span={7}>
+        <Col className="gutter-row" span={4}>
           <p>{translate('Description')}</p>
         </Col>
+        <Col className="gutter-row" span={4}>
+          <p>{translate('Note')}</p>
+        </Col>
         <Col className="gutter-row" span={3}>
-          <p>{translate('Quantity')}</p>{' '}
+          <p>{translate('Quantity')}</p>
         </Col>
         <Col className="gutter-row" span={4}>
           <p>{translate('Price')}</p>
         </Col>
-        <Col className="gutter-row" span={5}>
+        <Col className="gutter-row" span={4}>
           <p>{translate('Total')}</p>
         </Col>
+        <Col className="gutter-row" span={1}></Col>
       </Row>
+
       <Form.List name="items">
         {(fields, { add, remove }) => (
           <>
             {fields.map((field) => (
-              <ItemRow key={field.key} remove={remove} field={field} current={current}></ItemRow>
+              <ItemRow key={field.key} remove={remove} field={field} current={current} />
             ))}
             <Form.Item>
               <Button
                 type="dashed"
-                onClick={() => add()}
+                onClick={() =>
+                  add({
+                    itemName: '',
+                    description: '',
+                    note: '',
+                    quantity: 1,
+                    price: 0,
+                    total: 0,
+                  })
+                }
                 block
                 icon={<PlusOutlined />}
                 ref={addField}
@@ -210,6 +271,7 @@ function LoadInvoiceForm({ subTotal = 0, current = null }) {
           </>
         )}
       </Form.List>
+
       <Divider dashed />
       <div style={{ position: 'relative', width: ' 100%', float: 'right' }}>
         <Row gutter={[12, -5]}>
