@@ -320,6 +320,10 @@ html
         
       .col.col-24
           .space     
+if model.summary && model.summary.trim() !== ''
+  .invoice-summary-section
+    h3 #{translate('Invoice Summary')}
+    p.summary-text #{model.summary}
       footer.footer-invoice
         //- | Invoice was created on a computer and is valid without the signature and seal.
           

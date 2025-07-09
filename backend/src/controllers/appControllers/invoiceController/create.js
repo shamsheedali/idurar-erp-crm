@@ -19,7 +19,26 @@ const create = async (req, res) => {
     });
   }
 
-  const { items = [], taxRate = 0, discount = 0 } = value;
+  let { items = [], taxRate = 0, discount = 0 } = value;
+
+  items = items.map((item) => {
+    if (typeof item.note === 'string' && item.note.trim() !== '') {
+      const individualNotes = item.note
+        .split(',')
+        .map((n) => n.trim())
+        .filter((n) => n !== '');
+      return {
+        ...item,
+        note: individualNotes,
+      };
+    } else if (typeof item.note === 'string' && item.note.trim() === '') {
+      return {
+        ...item,
+        note: [],
+      };
+    }
+    return item;
+  });
 
   // default
   let subTotal = 0;
@@ -40,7 +59,7 @@ const create = async (req, res) => {
   body['subTotal'] = subTotal;
   body['taxTotal'] = taxTotal;
   body['total'] = total;
-  body['items'] = items;
+  body['items'] = items; // Assign the potentially modified items array back to body
 
   let paymentStatus = calculate.sub(total, discount) === 0 ? 'paid' : 'unpaid';
 

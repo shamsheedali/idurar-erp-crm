@@ -9,6 +9,7 @@ import {
   CloseCircleOutlined,
   RetweetOutlined,
   MailOutlined,
+  GoogleOutlined,
 } from '@ant-design/icons';
 
 import { useSelector, useDispatch } from 'react-redux';
@@ -33,7 +34,11 @@ const Item = ({ item, currentErp }) => {
           <strong>{item.itemName}</strong>
         </p>
         <p>{item.description}</p>
-        <p>{item.note}</p>
+
+        <h3>Notes:</h3>
+        {item.note.map((i) => (
+          <p> - {i}</p>
+        ))}
       </Col>
       <Col className="gutter-row" span={4}>
         <p
@@ -124,6 +129,35 @@ export default function ReadItem({ config, selectedItem }) {
     }
   }, [currentErp]);
 
+  const [invoiceSummary, setInvoiceSummary] = useState(currentErp?.summary);
+  const [loadingSummary, setLoadingSummary] = useState(false);
+  const [summaryError, setSummaryError] = useState('');
+
+  const handleGenerateSummary = async () => {
+    setLoadingSummary(true);
+    setSummaryError('');
+    setInvoiceSummary('');
+
+    try {
+      const result = await dispatch(erp.aiSummary({ entity, id: currentErp._id }));
+
+      if (result && result.success) {
+        setInvoiceSummary(result.summary);
+      } else {
+        setInvoiceSummary(result?.summary || 'Could not generate summary.');
+        if (!result.success) {
+          setSummaryError(result?.message || 'Unknown error during summary generation.');
+        }
+      }
+    } catch (error) {
+      console.error('Error generating summary in component:', error);
+      setSummaryError(error.message || 'Failed to generate summary.');
+      setInvoiceSummary('');
+    } finally {
+      setLoadingSummary(false);
+    }
+  };
+
   return (
     <>
       <PageHeader
@@ -171,6 +205,14 @@ export default function ReadItem({ config, selectedItem }) {
             icon={<MailOutlined />}
           >
             {translate('Send by Email')}
+          </Button>,
+          <Button
+            key={`${uniqueId()}`}
+            onClick={handleGenerateSummary}
+            icon={<GoogleOutlined />}
+            style={{ display: entity === 'invoice' ? 'inline-block' : 'none' }}
+          >
+            {translate('Generate Summary')}
           </Button>,
           <Button
             key={`${uniqueId()}`}
@@ -280,6 +322,7 @@ export default function ReadItem({ config, selectedItem }) {
       {itemslist.map((item) => (
         <Item key={item._id} item={item} currentErp={currentErp}></Item>
       ))}
+
       <div
         style={{
           width: '300px',
@@ -317,6 +360,19 @@ export default function ReadItem({ config, selectedItem }) {
             </p>
           </Col>
         </Row>
+      </div>
+      <div>
+        <h2>Summary</h2>
+        {loadingSummary && <p>Generating summary...</p>}
+        {summaryError && <p style={{ color: 'red' }}>Error: {summaryError}</p>}
+        {invoiceSummary ? (
+          <p style={{ whiteSpace: 'pre-wrap' }}>{invoiceSummary}</p>
+        ) : (
+          !loadingSummary &&
+          !summaryError && (
+            <p>Click "Generate Summary" to get an AI-powered overview of this invoice's notes.</p>
+          )
+        )}
       </div>
     </>
   );

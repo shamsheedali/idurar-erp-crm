@@ -92,8 +92,8 @@ const invoiceSchema = new mongoose.Schema({
         required: true,
       },
       note: {
-        type: String,
-        default: '',
+        type: [String],
+        default: [],
       },
     },
   ],
@@ -156,6 +156,10 @@ const invoiceSchema = new mongoose.Schema({
   },
   pdf: {
     type: String,
+  },
+  summary: {
+    type: String,
+    default: '',
   },
   files: [
     {

@@ -247,7 +247,6 @@ export const erp = {
         keyState: 'summary',
         payload: null,
       });
-
       const data = await request.summary({ entity, options });
 
       if (data.success === true) {
@@ -295,5 +294,12 @@ export const erp = {
     ({ entity, id }) =>
     async () => {
       await request.convert({ entity, id });
+    },
+
+  aiSummary:
+    ({ entity, id }) =>
+    async () => {
+      const result = await request.aiSummary({ entity, id });
+      return result;
     },
 };
