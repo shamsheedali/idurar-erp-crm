@@ -45,6 +45,8 @@ export const POST = apiHandler(async (req) => {
     return errorResponse('Project with this name already exists.', STATUS.CONFLICT);
   }
 
+  console.log('first', parsed);
+
   let projectId = '';
   let exists = true;
 

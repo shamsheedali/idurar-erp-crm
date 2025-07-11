@@ -1,3 +1,21 @@
+const { globSync } = require('glob');
+const path = require('path');
+const mongoose = require('mongoose'); 
+const modelFilesPattern = path.join(__dirname, 'models', '**', '*.js');
+const allModelFilePaths = globSync(modelFilesPattern);
+
+for (const modelPath of allModelFilePaths) {
+  try {
+    // Use an absolute path to ensure correct module resolution
+    require(path.resolve(modelPath));
+  } catch (error) {
+    console.error(`Error loading Mongoose model file: ${modelPath}`, error.message);
+    // Depending on the severity, you might want to throw the error here
+    // if a core model failing to load should prevent the app from starting.
+    // For now, we'll just log it.
+  }
+}
+
 const express = require('express');
 
 const cors = require('cors');

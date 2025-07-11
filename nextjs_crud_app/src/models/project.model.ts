@@ -5,6 +5,7 @@ export interface IProject extends Document {
   name: string;
   description?: string;
   status: 'pending' | 'in_progress' | 'completed';
+  projectCode: string;
   createdAt: Date;
   updatedAt: Date;
 }
@@ -14,6 +15,7 @@ const projectSchema = new Schema<IProject>(
     projectId: { type: String, required: true, unique: true },
     name: { type: String, required: true, unique: true },
     description: { type: String },
+    projectCode: { type: String },
     status: {
       type: String,
       enum: ['pending', 'in_progress', 'completed'],

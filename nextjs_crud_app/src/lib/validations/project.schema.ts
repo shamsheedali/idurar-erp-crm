@@ -4,6 +4,7 @@ export const createProjectSchema = z.object({
   name: z.string().min(1, 'Name is required'),
   description: z.string().optional(),
   status: z.enum(['pending', 'in_progress', 'completed']).optional(),
+  projectCode: z.string().min(1),
 });
 
 export const updateProjectSchema = z.object({

@@ -75,10 +75,12 @@ export default function ProjectsPage() {
     name: string;
     description: string;
     status: ProjectStatus;
+    projectCode: string;
   }>({
     name: '',
     description: '',
     status: 'pending',
+    projectCode: '',
   });
 
   const resetForm = () => {
@@ -86,6 +88,7 @@ export default function ProjectsPage() {
       name: '',
       description: '',
       status: 'pending',
+      projectCode: '',
     });
     setSelectedProject(null);
   };
@@ -214,6 +217,17 @@ export default function ProjectsPage() {
                         placeholder="Describe your project..."
                         value={form.description}
                         onChange={(e) => setForm({ ...form, description: e.target.value })}
+                      />
+                    </div>
+
+                    <div className="grid gap-3">
+                      <Label htmlFor="projectCode">Project Code</Label>
+                      <Textarea
+                        id="projectCode"
+                        name="projectCode"
+                        placeholder="Just give your code.."
+                        value={form.projectCode}
+                        onChange={(e) => setForm({ ...form, projectCode: e.target.value })}
                       />
                     </div>
 

@@ -35,7 +35,6 @@ export class IntegrationService {
   }
 
   async processWebhook(payload: CreateSalesLeadDto) {
-    // Forward the payload to SalesLeadService
     return this.salesLeadService.createLead(payload);
   }
 }
